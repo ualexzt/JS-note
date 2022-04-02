@@ -33,14 +33,19 @@ const data = [
   },
 ];
 var myModal = document.getElementById("exampleModal");
-var myInput = document.getElementById("myInput");
+var myInput = document.getElementById("name");
 
 myModal.addEventListener("shown.bs.modal", function () {
+  const selectOptions = document.getElementById("category").options;
+  category.forEach((item) => {
+    selectOptions.add(new Option(item.name));
+  });
   myInput.focus();
 });
 
 function loadData(data) {
   let tBody = document.getElementById("tbodyMain");
+  tBody.innerHTML = "";
 
   data.forEach((el) => {
     let row = document.createElement("tr");
@@ -55,10 +60,10 @@ function loadData(data) {
         <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
           <i class="bi bi-pen"></i>
         </button>
-        <button type="button" class="btn btn-outline-secondary">
+        <button type="button" class="btn btn-outline-secondary" onClick=archiveTask(${el.id})>
           <i class="bi bi-archive"></i>
         </button>
-        <button type="button" class="btn btn-outline-secondary">
+        <button type="button" class="btn btn-outline-secondary" onClick="deleteTask(${el.id})">
           <i class="bi bi-trash"></i>
         </button>
       </td>`;
@@ -68,3 +73,20 @@ function loadData(data) {
 }
 
 loadData(data);
+
+function deleteTask(id) {
+  const idx = data.findIndex((item) => item.id === id);
+  data.splice(idx, 1);
+  console.log(data);
+  loadData(data);
+}
+function archiveTask(id) {
+  const idx = data.findIndex((item) => item.id === id);
+  data.map((item) => {
+    if (item.id === id) {
+      item.archived = true;
+    }
+  });
+  console.log(data);
+  loadData(data);
+}
