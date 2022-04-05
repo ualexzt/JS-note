@@ -29,7 +29,6 @@
       <table class="table" id="main">
         <thead>
           <tr>
-            <th scope="col">#</th>
             <th scope="col">Name</th>
             <th scope="col">Created</th>
             <th scope="col">Category</th>
@@ -41,7 +40,13 @@
         <tbody id="tbodyMain"></tbody>
       </table>
       <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-        <button class="btn btn-secondary mt-3">Create Note</button>
+        <button
+          class="btn btn-secondary mt-3"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+        >
+          Create Note
+        </button>
       </div>
     </div>
 
@@ -66,7 +71,7 @@
             ></button>
           </div>
           <div class="modal-body">
-            <form>
+            <form class="" action="" id="notesForm">
               <div class="mb-3">
                 <label for="name" class="form-label">Name</label>
                 <input type="text" class="form-control" id="name" />
@@ -95,7 +100,11 @@
                 >
                   Close
                 </button>
-                <button type="button" class="btn btn-primary">
+                <button
+                  type="submit"
+                  class="btn btn-primary"
+                  data-bs-dismiss="modal"
+                >
                   Save changes
                 </button>
               </div>

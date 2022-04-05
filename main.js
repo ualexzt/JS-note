@@ -32,16 +32,43 @@ const data = [
     archived: false,
   },
 ];
-var myModal = document.getElementById("exampleModal");
-var myInput = document.getElementById("name");
+let myModal = document.getElementById("exampleModal");
+let myInput = document.getElementById("name");
+let noteForm = document.getElementById("notesForm");
 
 myModal.addEventListener("shown.bs.modal", function () {
   const selectOptions = document.getElementById("category").options;
+  selectOptions.length = 0;
   category.forEach((item) => {
-    selectOptions.add(new Option(item.name));
+    selectOptions.add(new Option(item.name, item.name));
   });
   myInput.focus();
 });
+
+noteForm.addEventListener("submit", (e) => {
+  addNote(e);
+});
+
+function addNote(e) {
+  e.preventDefault();
+  const timeStm = new Date(Date.now()).toLocaleString("en-US").split(",")[0];
+
+  let newNote = {};
+  if (e.target[0].value === "" || e.target[2].value === "") {
+    alert("Enter your note");
+  } else {
+    newNote.name = e.target[0].value;
+    newNote.category = e.target[1].value;
+    newNote.content = e.target[2].value;
+    newNote.dates = e.target[3].value;
+    newNote.createdAt = timeStm;
+    newNote.id = Date.now();
+    newNote.archived = false;
+    data.push(newNote);
+    loadData(data);
+    noteForm.reset();
+  }
+}
 
 function loadData(data) {
   let tBody = document.getElementById("tbodyMain");
@@ -50,17 +77,19 @@ function loadData(data) {
   data.forEach((el) => {
     let row = document.createElement("tr");
     if (!el.archived) {
-      row.innerHTML = `<th scope="row">${el.id}</th>
+      row.innerHTML = `
       <td>${el.name}</td>
       <td>${el.createdAt}</td>
       <td>${el.category}</td>
       <td>${el.content}</td>
       <td>${el.dates}</td>
       <td>
-        <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        <button type="button" 
+        class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal"        
+        >
           <i class="bi bi-pen"></i>
         </button>
-        <button type="button" class="btn btn-outline-secondary" onClick=archiveTask(${el.id})>
+        <button type="button" class="btn btn-outline-secondary" onClick="archiveTask(${el.id})">
           <i class="bi bi-archive"></i>
         </button>
         <button type="button" class="btn btn-outline-secondary" onClick="deleteTask(${el.id})">
@@ -80,6 +109,7 @@ function deleteTask(id) {
   console.log(data);
   loadData(data);
 }
+
 function archiveTask(id) {
   const idx = data.findIndex((item) => item.id === id);
   data.map((item) => {
@@ -87,6 +117,17 @@ function archiveTask(id) {
       item.archived = true;
     }
   });
-  console.log(data);
   loadData(data);
+}
+
+function editTask(task) {
+  console.log(task);
+  if (indexTask != 0) {
+    const name = document.getElementById("name");
+    const catedory = document.getElementById("category");
+    const content = document.getElementById("content");
+    const dates = document.getElementById("dates");
+    name.value = "<kf f ";
+  }
+  indexTask = 0;
 }
